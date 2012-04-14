@@ -1,0 +1,10 @@
+
+
+该项目主要实现的功能为：根据IP地址找到所对应的地理位置信息
+
+项目包含有三个PHP类文件：
+IpLocationSeekerBinary
+IpLocationSeekerBinaryExtension
+IpLocationSeekerSqlite
+
+
