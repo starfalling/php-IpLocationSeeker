@@ -25,7 +25,7 @@
 
     $sqlite_filepath = "/path/to/qqwry/sqlite/db/file/qqwry.sqlite.3";
     $qqwry_filepath = "/path/to/qqwry/binary/qqwry.dat";
-    $seeker = new IpLocationSeekerBinary($sqlite_filepath);
+    $seeker = new IpLocationSeekerBinary($qqwry_filepath);
     $seeker->saveAsSqlite($sqlite_filepath, 3, true);
 
 文件 test/performance_test.php 对所实现的三种IP地理位置查询方法进行了性能测试，测试结果如下：
