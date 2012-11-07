@@ -193,32 +193,32 @@ class IpLocationSeekerBinary {
 				$ip_record_level_three_pos = self::fgetint_with_three_bytes($this->handle);
 				$level_three_flag = ord(fgetc($this->handle));
 				fseek($this->handle, $ip_record_level_three_pos, SEEK_SET);
-				$country = self::fgets_zeor_end($this->handle);
+				$country = self::fgets_zero_end($this->handle);
 				
 				if($level_three_flag==1 || $level_three_flag==2){
 					fseek($this->handle, $ip_record_level_two_pos+5, SEEK_SET);
 					$ip_record_area_string_pos = self::fgetint_with_three_bytes($this->handle);
 					fseek($this->handle, $ip_record_area_string_pos, SEEK_SET);
-					$area = self::fgets_zeor_end($this->handle);
+					$area = self::fgets_zero_end($this->handle);
 				}else{
 					fseek($this->handle, $ip_record_level_two_pos+4, SEEK_SET);
-					$area = self::fgets_zeor_end($this->handle);
+					$area = self::fgets_zero_end($this->handle);
 				}
 			}else{
 				fseek($this->handle, $ip_record_level_two_pos, SEEK_SET);
-				$country = self::fgets_zeor_end($this->handle);
-				$area = self::fgets_zeor_end($this->handle);
+				$country = self::fgets_zero_end($this->handle);
+				$area = self::fgets_zero_end($this->handle);
 			}
 		}elseif($flag == 2){
 			$ip_record_level_two_pos = self::fgetint_with_three_bytes($this->handle);
 			fseek($this->handle, $ip_record_level_two_pos, SEEK_SET);
-			$country = self::fgets_zeor_end($this->handle);
+			$country = self::fgets_zero_end($this->handle);
 			fseek($this->handle, $ip_record_pos+8, SEEK_SET);
-			$area = self::fgets_zeor_end($this->handle);
+			$area = self::fgets_zero_end($this->handle);
 		}else{
 			fseek($this->handle, $ip_record_pos+4, SEEK_SET);
-			$country = self::fgets_zeor_end($this->handle);
-			$area = self::fgets_zeor_end($this->handle);
+			$country = self::fgets_zero_end($this->handle);
+			$area = self::fgets_zero_end($this->handle);
 		}
 		
 		$country = iconv("gb18030", "utf-8//IGNORE", $country);
@@ -233,7 +233,7 @@ class IpLocationSeekerBinary {
 	 * 从文件的当前位置读取一个以\0结尾的字符串
 	 * @param resource $handle 文件指针
 	 */
-	private static function fgets_zeor_end($handle){
+	private static function fgets_zero_end($handle){
 		$result = "";
 		while(true){
 			$char = fgetc($handle);
