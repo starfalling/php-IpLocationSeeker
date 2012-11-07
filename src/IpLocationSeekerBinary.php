@@ -221,10 +221,10 @@ class IpLocationSeekerBinary {
 			$area = self::fgets_zeor_end($this->handle);
 		}
 		
-		$country = iconv("gb18030", "utf-8", $country);
+		$country = iconv("gb18030", "utf-8//IGNORE", $country);
 		if($area){
 			if(ord($area{0}) == 2) $area = ""; // 不规则字符
-			$area = iconv("gb18030", "utf-8", $area);
+			else $area = iconv("gb18030", "utf-8//IGNORE", $area);
 		}
 		return array($country, $area);
 	}
