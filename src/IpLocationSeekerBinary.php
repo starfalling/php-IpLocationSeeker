@@ -89,6 +89,8 @@ class IpLocationSeekerBinary {
 	 * @return string
 	 */
 	private static function real_province_name($country_in_qqwry){
+		$country_in_qqwry = trim($country_in_qqwry);
+		$country_in_qqwry = str_replace("，", "", $country_in_qqwry);
 		static $special_maps = array("东北农业大学"=>"黑龙江", "东北大学"=>"辽宁", 
 				"东北林业大学"=>"黑龙江", "东华大学"=>"上海", "东华理工大学"=>"江西", "中央财经大学"=>"北京",
 				"东南大学"=>"江苏", "中北大学"=>"山西", "中南大学"=>"湖南", "中南财经政法大学"=>"湖北",
@@ -100,13 +102,13 @@ class IpLocationSeekerBinary {
 				"哈尔滨工业大学"=>"黑龙江", "哈尔滨工程大学"=>"黑龙江", "哈尔滨师范大学"=>"黑龙江", "哈尔滨理工大学"=>"黑龙江",
 				"大庆职工大学"=>"黑龙江", "太原科技大学"=>"山西", "汉中理工学院"=>"陕西", "西北工业大学"=>"陕西",
 				"郑州大学"=>"河南", "长江大学"=>"湖北", "对外经济贸易大学"=>"北京", "宁波大学"=>"浙江",
-				"黄河科技大学"=>"河南");
+				"黄河科技大学"=>"河南", "长江大学东校区"=>"湖北", "华北地区"=>"中国", "华东地区"=>"中国");
 		if(isset($special_maps[$country_in_qqwry])) return $special_maps[$country_in_qqwry];
 		static $province_names = NULL;
 		if(!$province_names)
 			$province_names = explode(",", "北京,上海,天津,重庆,安徽,福建,甘肃,广东,广西,贵州,海南,"
 				."河北,河南,黑龙江,湖北,湖南,吉林,江苏,江西,辽宁,内蒙古,宁夏,青海,山东,山西,陕西,四川,西藏,"
-				."新疆,云南,浙江,香港,澳门,台湾,中国,美国");
+				."新疆,云南,浙江,香港,澳门,台湾,美国");
 		foreach($province_names as $name){
 			if(strpos($country_in_qqwry, $name) !== false) return $name;
 		}
@@ -126,6 +128,27 @@ class IpLocationSeekerBinary {
 		if(strpos($country_in_qqwry, "青岛")!==false) return "山东";
 		if(strpos($country_in_qqwry, "齐齐哈尔")!==false) return "黑龙江";
 		if(strpos($country_in_qqwry, "暨南大学")!==false) return "广东";
+		if(strpos($country_in_qqwry, "清华大学")!==false) return "北京";
+		if(strpos($country_in_qqwry, "xrea.com")!==false) return "xrea.com";
+		if(strpos($country_in_qqwry, "福州大学")!==false) return "福建";
+		if(strpos($country_in_qqwry, "集美大学")!==false) return "福建";
+		if(strpos($country_in_qqwry, "华中科技大学")!==false) return "湖北";
+		if(strpos($country_in_qqwry, "对外经济贸易大学")!==false) return "北京";
+		if(strpos($country_in_qqwry, "中国农业大学")!==false) return "北京";
+		if(strpos($country_in_qqwry, "哈尔滨")!==false) return "黑龙江";
+		if(strpos($country_in_qqwry, "中南大学")!==false) return "湖南";
+		if(strpos($country_in_qqwry, "合肥")!==false) return "安徽";
+		if(strpos($country_in_qqwry, "中国人民大学")!==false) return "北京";
+		if(strpos($country_in_qqwry, "南京")!==false) return "江苏";
+		if(strpos($country_in_qqwry, "中国国际电子商务中心")!==false) return "北京";
+		if(strpos($country_in_qqwry, "郑州")!==false) return "河南";
+		if(strpos($country_in_qqwry, "中国测绘院")!==false) return "北京";
+		if(strpos($country_in_qqwry, "中国农业科学院")!==false) return "北京";
+		if(strpos($country_in_qqwry, "IBM中国公司")!==false) return "北京";
+		if(strpos($country_in_qqwry, "雅虎中国")!==false) return "北京";
+		if(strpos($country_in_qqwry, "兰州")!==false) return "甘肃";
+		if(strpos($country_in_qqwry, "华侨大学")!==false) return "福建";
+		
 		return $country_in_qqwry;
 	}
 
@@ -197,10 +220,14 @@ class IpLocationSeekerBinary {
 			$country = self::fgets_zeor_end($this->handle);
 			$area = self::fgets_zeor_end($this->handle);
 		}
-
-		if(ord($area{0}) == 2) $area = ""; // 不规则字符
-		$country = iconv("gb18030", "utf-8", $country);
-		$area = iconv("gb18030", "utf-8", $area);
+		
+		if(!$area){
+			$country = $area = "";
+		}else{
+			if(ord($area{0}) == 2) $area = ""; // 不规则字符
+			$country = iconv("gb18030", "utf-8", $country);
+			$area = iconv("gb18030", "utf-8", $area);
+		}
 		return array($country, $area);
 	}
 
