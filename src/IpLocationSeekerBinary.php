@@ -165,7 +165,7 @@ class IpLocationSeekerBinary {
 		fseek($this->handle, $file_offset, SEEK_SET);
 		$ip_middle_int = self::fgetint($this->handle, false);
 		if ($ip_middle_int == $ip_int) return $index_low;
-		elseif ($ip_int > $ip_middle_int){
+		elseif (($ip_int > $ip_middle_int && $ip_middle_int > 0) || ( $ip_int < 0 && ($ip_int > $ip_middle_int || $ip_middle_int > 0 ))){
 			$index_low = $index_middle;
 			return $this->half_find($ip_int, $index_low, $index_high, $this->first_index_pos);
 		}else{
