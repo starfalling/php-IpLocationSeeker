@@ -35,3 +35,5 @@
     [sqlite]        times:100000    5.40s used
 
 使用sqlite跟使用c扩展在查询性能上是比较接近的，都大幅领先于使用PHP实现的二分查找方法。
+
+该项目被用于：五指cms系统 http://www.wuzhicms.com
